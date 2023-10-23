@@ -3,6 +3,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 using DSharpPlus;
+using DSharpPlus.Entities;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.Interactivity;
 using Microsoft.Extensions.Logging;
@@ -10,15 +11,13 @@ using System.Reflection;
 
 namespace TheBunnyBot {
     class Program {
-        static string prefix = "bb!";
-
         static async Task Main(string[] args) {
             if (args.Length < 1) {
                 Console.WriteLine("First argument must be your bot's token");
                 return;
             }
             Console.WriteLine("Logging in with token (sha256 hashed): " + sha256hash(args[0]));
-            Console.WriteLine("Type stop to stop the bot \n---");
+            Console.WriteLine("Type !s to stop the bot \n---");
             
             var discord = new DiscordClient(new DiscordConfiguration() {
                 Token = args[0],
@@ -35,10 +34,10 @@ namespace TheBunnyBot {
 
             await discord.ConnectAsync();
 
-            await discord.UpdateStatusAsync(new DiscordActivity("bb!help", ActivityType.Streaming), UserStatus.Online, null)
+            await discord.UpdateStatusAsync(new DiscordActivity("bb!help", ActivityType.Streaming), UserStatus.Online, null);
 
             while (true) {
-                if (Console.ReadLine() == "stop") {
+                if (Console.ReadLine() == "!s") {
                     await discord.UpdateStatusAsync(new DiscordActivity("Bot stopping, no commands available", ActivityType.Playing), UserStatus.DoNotDisturb, null); 
                     return;
                 }
