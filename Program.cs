@@ -18,7 +18,7 @@ namespace TheBunnyBot {
                 return;
             }
             Console.WriteLine("Logging in with token (sha256 hashed): " + sha256hash(args[0]));
-            Console.WriteLine("---");
+            Console.WriteLine("Type stop to stop the bot \n---");
             
             var discord = new DiscordClient(new DiscordConfiguration() {
                 Token = args[0],
@@ -34,7 +34,15 @@ namespace TheBunnyBot {
             commands.RegisterCommands(Assembly.GetExecutingAssembly());
 
             await discord.ConnectAsync();
-            await Task.Delay(-1);
+
+            await discord.UpdateStatusAsync(new DiscordActivity("bb!help", ActivityType.Streaming), UserStatus.Online, null)
+
+            while (true) {
+                if (Console.ReadLine() == "stop") {
+                    await discord.UpdateStatusAsync(new DiscordActivity("Bot stopping, no commands available", ActivityType.Playing), UserStatus.DoNotDisturb, null); 
+                    return;
+                }
+            }
         }
 
         public static string sha256hash(string toHash) {
