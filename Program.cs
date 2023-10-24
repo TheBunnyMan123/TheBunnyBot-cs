@@ -11,10 +11,15 @@ using System.Reflection;
 namespace TheBunnyBot {
     class Program {
         static string prefix = "bb!";
+        public static string catapitoken;
+        public static string dogapitoken;
 
         static async Task Main(string[] args) {
-            if (args.Length < 1) {
+
+            if (args.Length < 2) {
                 Console.WriteLine("First argument must be your bot's token");
+                Console.WriteLine("Second argument must be your key for thecatapi.com");
+                // Console.WriteLine("Third argument must be your key for thedogapi.com");
                 return;
             }
             Console.WriteLine("Logging in with token (sha256 hashed): " + sha256hash(args[0]));

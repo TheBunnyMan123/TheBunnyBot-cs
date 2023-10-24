@@ -22,6 +22,11 @@ public class UtilityCommands : BaseCommandModule {
         var random = new Random();
         await ctx.RespondAsync($"Your number is: {random.Next(min, max)}");
     }
+    [Command("random")]
+    [Description("Random Number between X and Y")]
+    public async Task RandomCommand(CommandContext ctx) {
+        await ctx.RespondAsync("Arguments required, please do `bb!help random`");
+    }
 
     [Command("poll")]
     [Description("Create a poll")]
@@ -41,5 +46,11 @@ public class UtilityCommands : BaseCommandModule {
         foreach(var option in emojiOptions) {
             await pollMessage.CreateReactionAsync(option);
         }
+    }
+
+    [Command("poll")]
+    [Description("Create a poll")]
+    public async Task PollCommand(CommandContext ctx) {
+        await ctx.RespondAsync("Arguments required, please do `bb!help poll`");
     }
 }
