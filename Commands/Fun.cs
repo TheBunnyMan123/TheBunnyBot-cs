@@ -19,7 +19,7 @@ public class FunCommands : BaseCommandModule {
     [Command("greet")]
     public async Task GreetCommand(CommandContext ctx, 
                                    [Description("Name to greet")] [RemainingText] String name) {
-        await ctx.RespondAsync("Hi there, " + name + ", How are you doing today?");
+        await ctx.RespondAsync("Hi there, " + name + ", How are you doing today? (Courtesy of " + ctx.Member.Mention + ")");
     }
     [Command("greet")]
     [Description("Greet a user")]
