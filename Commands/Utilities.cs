@@ -54,4 +54,21 @@ public class UtilityCommands : BaseCommandModule {
     public async Task PollCommand(CommandContext ctx) {
         await ctx.RespondAsync("Arguments required, please do `bb!help poll`");
     }
+
+    [Command("timeout")]
+    [Description("Time someone out")]
+    public async Task TimeoutCommand(CommandContext ctx, [Description("User to time out")] DiscordMember user) {
+        ctx.Member.TimeoutAsync(DateTime.Now + TimeSpan.FromSeconds(60), "imagine trying to time someone out");
+        await ctx.RespondAsync("@everyone " + ctx.Member.Mention  + " tried to time " + user.Mention + " out like an idiot");
+    }
+    [Command("timeout")]
+    [Description("Time someone out")]
+    public async Task TimeoutCommand(CommandContext ctx) {
+        await ctx.RespondAsync("arguments required. try `bb!help timeout`");
+    }
+    [Command("timeout")]
+    [Description("Time someone out")]
+    public async Task TimeoutCommand(CommandContext ctx, [Description("User ID")] string UserID) {
+        await ctx.RespondAsync("Nah fam");
+    }
 }
