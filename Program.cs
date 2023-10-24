@@ -3,6 +3,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 using DSharpPlus;
+using DSharpPlus.Entities;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.Interactivity;
 using Microsoft.Extensions.Logging;
@@ -23,7 +24,7 @@ namespace TheBunnyBot {
                 return;
             }
             Console.WriteLine("Logging in with token (sha256 hashed): " + sha256hash(args[0]));
-            Console.WriteLine("---");
+            Console.WriteLine("Type !s to stop the bot \n---");
             
             var discord = new DiscordClient(new DiscordConfiguration() {
                 Token = args[0],
@@ -39,7 +40,15 @@ namespace TheBunnyBot {
             commands.RegisterCommands(Assembly.GetExecutingAssembly());
 
             await discord.ConnectAsync();
-            await Task.Delay(-1);
+
+            await discord.UpdateStatusAsync(new DiscordActivity("bb!help", ActivityType.Streaming), UserStatus.Online, null);
+
+            while (true) {
+                if (Console.ReadLine() == "!s") {
+                    await discord.UpdateStatusAsync(new DiscordActivity("Bot stopping, no commands available", ActivityType.Playing), UserStatus.DoNotDisturb, null); 
+                    return;
+                }
+            }
         }
 
         public static string sha256hash(string toHash) {

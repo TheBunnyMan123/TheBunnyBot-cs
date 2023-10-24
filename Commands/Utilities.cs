@@ -36,6 +36,7 @@ public class UtilityCommands : BaseCommandModule {
         DiscordEmoji[] emojiOptions = new DiscordEmoji[] { DiscordEmoji.FromName(ctx.Client, ":white_check_mark:", false), DiscordEmoji.FromName(ctx.Client, ":x:", false) };
         var options = emojiOptions.Select(x => x.ToString());
 
+        #pragma warning disable CS8602
         var pollEmbed = new DiscordEmbedBuilder {
             Title = "Poll by " + ctx.Member.Username,
             Description = msg
