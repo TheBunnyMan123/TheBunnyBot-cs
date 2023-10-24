@@ -12,14 +12,14 @@ using System.Reflection;
 namespace TheBunnyBot {
     class Program {
         static string prefix = "bb!";
-        public static string catapitoken;
-        public static string dogapitoken;
+        // public static string catapitoken;
+        // public static string dogapitoken;
 
         static async Task Main(string[] args) {
 
-            if (args.Length < 2) {
+            if (args.Length < 1) {
                 Console.WriteLine("First argument must be your bot's token");
-                Console.WriteLine("Second argument must be your key for thecatapi.com");
+                // Console.WriteLine("Second argument must be your key for thecatapi.com");
                 // Console.WriteLine("Third argument must be your key for thedogapi.com");
                 return;
             }
@@ -29,7 +29,8 @@ namespace TheBunnyBot {
             var discord = new DiscordClient(new DiscordConfiguration() {
                 Token = args[0],
                 TokenType = TokenType.Bot,
-                Intents = DiscordIntents.AllUnprivileged | DiscordIntents.MessageContents,
+                // Intents = DiscordIntents.AllUnprivileged | DiscordIntents.MessageContents,
+                Intents = DiscordIntents.All,
                 MinimumLogLevel = LogLevel.Debug,
                 LogTimestampFormat = "MMM dd yyyy - hh:mm:ss tt"
             });
@@ -41,7 +42,11 @@ namespace TheBunnyBot {
 
             await discord.ConnectAsync();
 
-            await discord.UpdateStatusAsync(new DiscordActivity("bb!help", ActivityType.Streaming), UserStatus.Online, null);
+            var activity = new DiscordActivity("bb!help", ActivityType.Streaming);
+            activity.StreamUrl = "https://twitch.tv/thebunnyman12/";
+
+            discord.Ready += async (client, readyEventArgs) => 
+                await discord.UpdateStatusAsync(activity, UserStatus.Online, null);
 
             while (true) {
                 if (Console.ReadLine() == "!s") {
