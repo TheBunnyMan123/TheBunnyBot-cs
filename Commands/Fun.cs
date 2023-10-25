@@ -3,11 +3,9 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.CommandsNext.Converters;
 using DSharpPlus.Entities;
-using CatApiWrapper.Responses;
 using System.Net.Http;
 using System.Net;
 using System.Net.Http.Headers;
-using TheBunnyBot.Program;
 
 public class FunCommands : BaseCommandModule {
     [Command("greet")]
@@ -29,9 +27,16 @@ public class FunCommands : BaseCommandModule {
 
     [Command("roll")]
     [Description("Rick Roll Everyone")]
-    public async Task PingCommand(CommandContext ctx) {
-        foreach (var channel in await ctx.Guild.GetChannelsAsync()) {
-            channel.SendMessageAsync("Rick Roll, Courtesy of " + Ctx.Member.Mention + ": ( https://www.youtube.com/watch?v=dQw4w9WgXcQ )");
+    public async Task RollCommand(CommandContext ctx) {
+        var channels = ctx.Guild.Channels;
+        // Console.WriteLine(channels[0].Type);
+        // Console.WriteLine(1);
+        // await ctx.Channel.SendMessageAsync("Rick Roll, Courtesy of " + ctx.Member.Mention + ": ( https://www.youtube.com/watch?v=dQw4w9WgXcQ )").ConfigureAwait(false);
+        // Console.WriteLine(1);
+        foreach (var channel in channels) {
+            if (channel.Value.Type.ToString() == "Category") {} else {
+                await channel.Value.SendMessageAsync("Rick Roll, Courtesy of " + ctx.Member.Mention + ": ( https://www.youtube.com/watch?v=dQw4w9WgXcQ )").ConfigureAwait(false);
+            }
         }
     }
 
@@ -45,9 +50,33 @@ public class FunCommands : BaseCommandModule {
             client.DefaultRequestHeaders.Add("User-Agent", "TheBunnyBot");
             client.DefaultRequestHeaders.Add("x-api-key", TheBunnyBot.Program.catapitoken);
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        await ctx.RespondAsync(TheBunnyBot.Program.ImageApiRequest(client, "https://api.thecatapi.com/v1/images/search?api_key="+TheBunnyBot.Program.catapitoken).Result);
+    }
 
-        var response = await TheBunnyBot.Program.ApiRequest(client, "https://api.thecatapi.com/v1/images/search?api_key="+TheBunnyBot.Program.catapitoken);
-        await ctx.RespondAsync(response);
+    // [Command("meme")]
+    // [Description("Get a meme")]
+    // public async Task MemeCommand(CommandContext ctx) {
+    //     Console.WriteLine(1);
+    //     using HttpClient client = new();
+    //         client.DefaultRequestHeaders.Accept.Clear();
+    //         client.DefaultRequestHeaders.Accept.Add(
+    //             new MediaTypeWithQualityHeaderValue("application/TheBunnyBot"));
+    //         client.DefaultRequestHeaders.Add("User-Agent", "TheBunnyBot");
+    //         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+    //     Console.WriteLine(1);
+    //     await ctx.RespondAsync(TheBunnyBot.Program.ImageApiRequest(client, "https://meme-api.com/gimme").Result);
+    // }
 
+    [Command("dog")]
+    [Description("Get a cat picture from thedogapi.com")]
+    public async Task DogCommand(CommandContext ctx) {
+        using HttpClient client = new();
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/TheBunnyBot"));
+            client.DefaultRequestHeaders.Add("User-Agent", "TheBunnyBot");
+            client.DefaultRequestHeaders.Add("x-api-key", TheBunnyBot.Program.dogapitoken);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        await ctx.RespondAsync(TheBunnyBot.Program.ImageApiRequest(client, "https://api.thedogapi.com/v1/images/search?api_key="+TheBunnyBot.Program.dogapitoken).Result);
     }
 }
