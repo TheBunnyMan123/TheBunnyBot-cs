@@ -54,4 +54,29 @@ public class UtilityCommands : BaseCommandModule {
     public async Task PollCommand(CommandContext ctx) {
         await ctx.RespondAsync("Arguments required, please do `bb!help poll`");
     }
+
+    [Command("clone")]
+    [Description("Clone current channel")]
+    public async Task CloneCommand(CommandContext ctx) {
+        string renameTo = String.Join("-", name);
+        var channel = ctx.Channel;
+        channel.CloneAsync(ctx.Member + " ran bb!clone");
+        await ctx.RespondAsync("Done!");
+    }
+
+    [Command("rename")]
+    [Description("Rename current channel")]
+    public async Task RenameCommand(CommandContext ctx
+                                    [Description("New name")] params String[] name) {
+        string renameTo = String.Join("-", name);
+        var channel = ctx.Channel;
+        Action<ChannelEditModel> action = new(x => x.Name = renameTo);
+        await channel.ModifyAsync(action);
+        await ctx.RespondAsync("Done! Renamed to`" + renameTo);
+    }
+    [Command("rename")]
+    [Description("Rename current channel")]
+    public async Task RenameCommand(CommandContext ctx) {
+        await ctx.RespondAsync("Arguments required, please do `bb!help rename`");
+    }
 }
