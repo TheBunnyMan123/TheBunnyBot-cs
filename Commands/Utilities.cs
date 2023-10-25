@@ -58,7 +58,7 @@ public class UtilityCommands : BaseCommandModule {
     [Command("timeout")]
     [Description("Time someone out")]
     public async Task TimeoutCommand(CommandContext ctx, [Description("User to time out")] DiscordMember user) {
-        ctx.Member.TimeoutAsync(DateTime.Now + TimeSpan.FromSeconds(60), "imagine trying to time someone out");
+        ctx.Member.TimeoutAsync(DateTime.Now + TimeSpan.FromSeconds((60*5)), "imagine trying to time someone out");
         await ctx.RespondAsync("@everyone " + ctx.Member.Mention  + " tried to time " + user.Mention + " out like an idiot");
     }
     [Command("timeout")]

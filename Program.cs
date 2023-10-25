@@ -75,12 +75,17 @@ namespace TheBunnyBot {
         }
 
         public static async Task<string> ImageApiRequest(HttpClient client, string apiUrl) {
+            Console.WriteLine(1);
             await using Stream stream = await client.GetStreamAsync(apiUrl);
             var images = await JsonSerializer.DeserializeAsync<List<ApiVars>>(stream); 
-
+            Console.WriteLine(1);
             foreach (var Url in images) {
                 Console.Write(apiUrl + " got url " + Url.Url);
-                return await Task<string>.FromResult(Url.Url);
+                if(Url.Nsfw == true) {
+                    return await Task<string>.FromResult("not sent because nsfw");
+                }else {
+                    return await Task<string>.FromResult(Url.Url);
+                }
             }
             return await Task<string>.FromResult("error");
         }

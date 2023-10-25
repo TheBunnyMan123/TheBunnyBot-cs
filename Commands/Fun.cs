@@ -53,6 +53,20 @@ public class FunCommands : BaseCommandModule {
         await ctx.RespondAsync(TheBunnyBot.Program.ImageApiRequest(client, "https://api.thecatapi.com/v1/images/search?api_key="+TheBunnyBot.Program.catapitoken).Result);
     }
 
+    // [Command("meme")]
+    // [Description("Get a meme")]
+    // public async Task MemeCommand(CommandContext ctx) {
+    //     Console.WriteLine(1);
+    //     using HttpClient client = new();
+    //         client.DefaultRequestHeaders.Accept.Clear();
+    //         client.DefaultRequestHeaders.Accept.Add(
+    //             new MediaTypeWithQualityHeaderValue("application/TheBunnyBot"));
+    //         client.DefaultRequestHeaders.Add("User-Agent", "TheBunnyBot");
+    //         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+    //     Console.WriteLine(1);
+    //     await ctx.RespondAsync(TheBunnyBot.Program.ImageApiRequest(client, "https://meme-api.com/gimme").Result);
+    // }
+
     [Command("dog")]
     [Description("Get a cat picture from thedogapi.com")]
     public async Task DogCommand(CommandContext ctx) {
