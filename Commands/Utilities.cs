@@ -60,7 +60,7 @@ public class UtilityCommands : BaseCommandModule {
     public async Task CloneCommand(CommandContext ctx) {
         string renameTo = String.Join("-", name);
         var channel = ctx.Channel;
-        channel.CloneAsync(ctx.Member + " ran bb!clone");
+        await channel.CloneAsync(ctx.Member + " ran bb!clone");
         await ctx.RespondAsync("Done!");
     }
 

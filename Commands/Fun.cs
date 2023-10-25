@@ -79,4 +79,24 @@ public class FunCommands : BaseCommandModule {
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         await ctx.RespondAsync(TheBunnyBot.Program.ImageApiRequest(client, "https://api.thedogapi.com/v1/images/search?api_key="+TheBunnyBot.Program.dogapitoken).Result);
     }
+
+    [Command("roulette")]
+    [Description("Play a round of Russian Roulette (if you lose you will be reinvited)")]
+    public async Task RouletteCommand(CommandContext ctx) {
+        var random = new Random();
+        var rand = random.Next(1, 7);
+        if (rand == 7) {
+            rand = 6;
+        }
+        if (rand == 6) {
+            try {
+                var dm = ctx.Member.CreateDmChannelAsync();
+                var invite = await ctx.Channel.CreateInviteAsync(604800, 0, false, true, "Russian Roulette re-invite", null, null, null);
+                await dm.SendMessageAsync("You lost Russian Roulette! Rejoin here:" + invite + " (this invite wont last forever so join quick)");
+                await ctx.Member.RemoveAsync("Lost Russian Roulette (bb!roulette)");
+            }catch(UnauthorizedException e) {
+                await ctx.RespondAsync("You lost, but I didn't kick you because you have DMs blocked");
+            }
+        }
+    }
 }
