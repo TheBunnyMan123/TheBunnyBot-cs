@@ -2,6 +2,7 @@ using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.CommandsNext.Converters;
+using DSharpPlus.Net.Models;
 using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Enums;
@@ -58,7 +59,6 @@ public class UtilityCommands : BaseCommandModule {
     [Command("clone")]
     [Description("Clone current channel")]
     public async Task CloneCommand(CommandContext ctx) {
-        string renameTo = String.Join("-", name);
         var channel = ctx.Channel;
         await channel.CloneAsync(ctx.Member + " ran bb!clone");
         await ctx.RespondAsync("Done!");
@@ -66,13 +66,13 @@ public class UtilityCommands : BaseCommandModule {
 
     [Command("rename")]
     [Description("Rename current channel")]
-    public async Task RenameCommand(CommandContext ctx
+    public async Task RenameCommand(CommandContext ctx,
                                     [Description("New name")] params String[] name) {
         string renameTo = String.Join("-", name);
         var channel = ctx.Channel;
         Action<ChannelEditModel> action = new(x => x.Name = renameTo);
         await channel.ModifyAsync(action);
-        await ctx.RespondAsync("Done! Renamed to`" + renameTo);
+        await ctx.RespondAsync("Done! Renamed to " + renameTo);
     }
     [Command("rename")]
     [Description("Rename current channel")]
@@ -83,7 +83,7 @@ public class UtilityCommands : BaseCommandModule {
     [Command("timeout")]
     [Description("Time someone out")]
     public async Task TimeoutCommand(CommandContext ctx, [Description("User to time out")] DiscordMember user) {
-        ctx.Member.TimeoutAsync(DateTime.Now + TimeSpan.FromSeconds((60*5)), "imagine trying to time someone out");
+        await ctx.Member.TimeoutAsync(DateTime.Now + TimeSpan.FromSeconds((60*5)), "imagine trying to time someone out");
         await ctx.RespondAsync("@everyone " + ctx.Member.Mention  + " tried to time " + user.Mention + " out like an idiot");
     }
     [Command("timeout")]
