@@ -83,8 +83,7 @@ public class FunCommands : BaseCommandModule {
 
     [Command("roulette")]
     [Description("Play a round of Russian Roulette (if you lose you will be reinvited)")]
-    [RequireBotPermissionsAttribute(false, Permissions.KickMembers)]
-    [RequireBotPermissionsAttribute(false, Permissions.CreateInstantInvite)]
+    [RequireBotPermissionsAttribute(Permissions.KickMembers | Permissions.CreateInstantInvite, false)]
     public async Task RouletteCommand(CommandContext ctx) {
         var random = new Random();
         var rand = random.Next(1, 7);
