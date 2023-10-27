@@ -93,7 +93,11 @@ public class UtilityCommands : BaseCommandModule {
     }
     [Command("timeout")]
     [Description("Time someone out")]
-    public async Task TimeoutCommand(CommandContext ctx, [Description("User ID")] string UserID) {
-        await ctx.RespondAsync("Nah fam");
+    public async Task TimeoutCommand(CommandContext ctx, [Description("User ID")] string[] UserID) {
+        if (String.Join(" ", UserID) == "random") {
+            await ctx.Member.TimeoutAsync(DateTime.Now + TimeSpan.FromSeconds((60*60*24)), "timeout roulette");
+        }else {
+            await ctx.RespondAsync("Nah fam");
+        }
     }
 }
