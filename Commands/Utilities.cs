@@ -94,10 +94,26 @@ public class UtilityCommands : BaseCommandModule {
     [Command("timeout")]
     [Description("Time someone out")]
     public async Task TimeoutCommand(CommandContext ctx, [Description("User ID")] params string[] UserID) {
-        if (String.Join(" ", UserID) == "random") {
-            await ctx.Member.TimeoutAsync(DateTime.Now + TimeSpan.FromSeconds((60*60*24)), "timeout roulette");
-        }else {
-            await ctx.RespondAsync("Nah fam");
+        await ctx.RespondAsync("Nah fam");
+    }
+    [Command("timeoutroulette")]
+    [Description("Time someone random out")]
+    public async Task TimeoutRouletteCommand(CommandContext ctx) {
+        var users = ctx.Guild.Members;
+        var length = users.Count;
+        var userIndex = new Random().Next(0, length);
+        if (userIndex > length - 1) {userIndex -= 1;}
+        DiscordMember timeoutUser = ctx.Member;
+        int i = 0;
+        foreach (var member in users) {
+            Console.WriteLine("test");
+            if (i == userIndex) {
+                Console.WriteLine("test");
+                timeoutUser = member.Value;
+            }
+            i++;
         }
+        await timeoutUser.TimeoutAsync(DateTime.Now + TimeSpan.FromSeconds((60*60*24)), "timeout roulette");
+        await ctx.RespondAsync("Done! " + timeoutUser.Mention + " has been timed out");
     }
 }
