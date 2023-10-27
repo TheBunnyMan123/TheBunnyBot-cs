@@ -41,6 +41,18 @@ public class FunCommands : BaseCommandModule {
         }
     }
 
+    [Command("theholyping")]
+    [Description("The Holy Ping")]
+    public async Task HolyPingCommand(CommandContext ctx) {
+        var channels = ctx.Guild.Channels;
+        foreach (var channel in channels) {
+            if (channel.Value.Type.ToString() == "Category") {} else {
+                await channel.Value.SendMessageAsync("@everyone IT'S THE HOLY PING (cuourtesy of " + ctx.Member.Mention + ")").ConfigureAwait(false);
+            }
+        }
+    }
+
+
     [Command("cat")]
     [Description("Get a cat picture from thecatapi.com")]
     public async Task CatCommand(CommandContext ctx) {
