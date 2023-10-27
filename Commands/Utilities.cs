@@ -57,6 +57,7 @@ public class UtilityCommands : BaseCommandModule {
 
     [Command("clone")]
     [Description("Clone current channel")]
+    [RequireBotPermissionsAttribute(false, Permissions.ManageChannels)]
     public async Task CloneCommand(CommandContext ctx) {
         string renameTo = String.Join("-", name);
         var channel = ctx.Channel;
@@ -66,7 +67,8 @@ public class UtilityCommands : BaseCommandModule {
 
     [Command("rename")]
     [Description("Rename current channel")]
-    public async Task RenameCommand(CommandContext ctx
+    [RequireBotPermissionsAttribute(false, Permissions.ManageChannels)]
+    public async Task RenameCommand(CommandContext ctx,
                                     [Description("New name")] params String[] name) {
         string renameTo = String.Join("-", name);
         var channel = ctx.Channel;
@@ -76,23 +78,27 @@ public class UtilityCommands : BaseCommandModule {
     }
     [Command("rename")]
     [Description("Rename current channel")]
+    [RequireBotPermissionsAttribute(false, Permissions.ManageChannels)]
     public async Task RenameCommand(CommandContext ctx) {
         await ctx.RespondAsync("Arguments required, please do `bb!help rename`");
     }
 
     [Command("timeout")]
     [Description("Time someone out")]
+    [RequireBotPermissionsAttribute(false, Permissions.ModerateMembers)]
     public async Task TimeoutCommand(CommandContext ctx, [Description("User to time out")] DiscordMember user) {
         ctx.Member.TimeoutAsync(DateTime.Now + TimeSpan.FromSeconds((60*5)), "imagine trying to time someone out");
         await ctx.RespondAsync("@everyone " + ctx.Member.Mention  + " tried to time " + user.Mention + " out like an idiot");
     }
     [Command("timeout")]
     [Description("Time someone out")]
+    [RequireBotPermissionsAttribute(false, Permissions.ModerateMembers)]
     public async Task TimeoutCommand(CommandContext ctx) {
         await ctx.RespondAsync("arguments required. try `bb!help timeout`");
     }
     [Command("timeout")]
     [Description("Time someone out")]
+    [RequireBotPermissionsAttribute(false, Permissions.ModerateMembers)]
     public async Task TimeoutCommand(CommandContext ctx, [Description("User ID")] string UserID) {
         await ctx.RespondAsync("Nah fam");
     }
