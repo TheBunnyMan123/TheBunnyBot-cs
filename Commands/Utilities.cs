@@ -2,6 +2,7 @@ using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.CommandsNext.Converters;
+using DSharpPlus.Net.Models;
 using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Enums;
@@ -59,7 +60,6 @@ public class UtilityCommands : BaseCommandModule {
     [Description("Clone current channel")]
     [RequireBotPermissionsAttribute(false, Permissions.ManageChannels)]
     public async Task CloneCommand(CommandContext ctx) {
-        string renameTo = String.Join("-", name);
         var channel = ctx.Channel;
         await channel.CloneAsync(ctx.Member + " ran bb!clone");
         await ctx.RespondAsync("Done!");
@@ -74,7 +74,7 @@ public class UtilityCommands : BaseCommandModule {
         var channel = ctx.Channel;
         Action<ChannelEditModel> action = new(x => x.Name = renameTo);
         await channel.ModifyAsync(action);
-        await ctx.RespondAsync("Done! Renamed to`" + renameTo);
+        await ctx.RespondAsync("Done! Renamed to " + renameTo);
     }
     [Command("rename")]
     [Description("Rename current channel")]
@@ -87,7 +87,7 @@ public class UtilityCommands : BaseCommandModule {
     [Description("Time someone out")]
     [RequireBotPermissionsAttribute(false, Permissions.ModerateMembers)]
     public async Task TimeoutCommand(CommandContext ctx, [Description("User to time out")] DiscordMember user) {
-        ctx.Member.TimeoutAsync(DateTime.Now + TimeSpan.FromSeconds((60*5)), "imagine trying to time someone out");
+        await ctx.Member.TimeoutAsync(DateTime.Now + TimeSpan.FromSeconds((60*5)), "imagine trying to time someone out");
         await ctx.RespondAsync("@everyone " + ctx.Member.Mention  + " tried to time " + user.Mention + " out like an idiot");
     }
     [Command("timeout")]
@@ -101,5 +101,25 @@ public class UtilityCommands : BaseCommandModule {
     [RequireBotPermissionsAttribute(false, Permissions.ModerateMembers)]
     public async Task TimeoutCommand(CommandContext ctx, [Description("User ID")] string UserID) {
         await ctx.RespondAsync("Nah fam");
+    }
+    [Command("timeoutroulette")]
+    [Description("Time someone random out")]
+    public async Task TimeoutRouletteCommand(CommandContext ctx) {
+        var users = ctx.Guild.Members;
+        var length = users.Count;
+        var userIndex = new Random().Next(0, length);
+        if (userIndex > length - 1) {userIndex -= 1;}
+        DiscordMember timeoutUser = ctx.Member;
+        int i = 0;
+        foreach (var member in users) {
+            Console.WriteLine("test");
+            if (i == userIndex) {
+                Console.WriteLine("test");
+                timeoutUser = member.Value;
+            }
+            i++;
+        }
+        await timeoutUser.TimeoutAsync(DateTime.Now + TimeSpan.FromSeconds((60*60*24)), "timeout roulette");
+        await ctx.RespondAsync("Done! " + timeoutUser.Mention + " has been timed out");
     }
 }

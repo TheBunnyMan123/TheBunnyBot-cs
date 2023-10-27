@@ -3,6 +3,7 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.CommandsNext.Converters;
 using DSharpPlus.Entities;
+using DSharpPlus.Exceptions;
 using System.Net.Http;
 using System.Net;
 using System.Net.Http.Headers;
@@ -92,13 +93,16 @@ public class FunCommands : BaseCommandModule {
         }
         if (rand == 6) {
             try {
-                var dm = ctx.Member.CreateDmChannelAsync();
+                var dm = await ctx.Member.CreateDmChannelAsync();
                 var invite = await ctx.Channel.CreateInviteAsync(604800, 0, false, true, "Russian Roulette re-invite", null, null, null);
                 await dm.SendMessageAsync("You lost Russian Roulette! Rejoin here:" + invite + " (this invite wont last forever so join quick)");
                 await ctx.Member.RemoveAsync("Lost Russian Roulette (bb!roulette)");
             }catch(UnauthorizedException e) {
+                Console.WriteLine(e);
                 await ctx.RespondAsync("You lost, but I didn't kick you because you have DMs blocked");
             }
+        }else {
+            await ctx.RespondAsync("You Survived! (For Now)");
         }
     }
 }

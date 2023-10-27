@@ -15,9 +15,8 @@ using System.Text.Json;
 
 namespace TheBunnyBot {
     class Program {
-        static string prefix = "bb!";
-        public static string catapitoken;
-        public static string dogapitoken;
+        public static string catapitoken = "";
+        public static string dogapitoken = "";
 
         static async Task Main(string[] args) {
 
