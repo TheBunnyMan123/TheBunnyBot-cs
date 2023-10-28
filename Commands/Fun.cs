@@ -47,7 +47,7 @@ public class FunCommands : BaseCommandModule {
         var channels = ctx.Guild.Channels;
         foreach (var channel in channels) {
             if (channel.Value.Type.ToString() == "Category") {} else {
-                await channel.Value.SendMessageAsync("@everyone IT'S THE HOLY PING (cuourtesy of " + ctx.Member.Mention + ")").ConfigureAwait(false);
+                await channel.Value.SendMessageAsync("<@&1167617744586408047> IT'S THE HOLY PING (courtesy of " + ctx.Member.Mention + ")").ConfigureAwait(false);
             }
         }
     }
