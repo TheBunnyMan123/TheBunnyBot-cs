@@ -52,6 +52,16 @@ public class FunCommands : BaseCommandModule {
         }
     }
 
+    [Command("theholyping")]
+    [Description("The Holy Ping")]
+    public async Task HolyPingCommand(CommandContext ctx, [Description("The Holy Ping")] DiscordRole role) {
+        var channels = ctx.Guild.Channels;
+        foreach (var channel in channels) {
+            if (channel.Value.Type.ToString() == "Category") {} else {
+                await channel.Value.SendMessageAsync(role.Mention + " IT'S THE HOLY PING (courtesy of " + ctx.Member.Mention + ")").ConfigureAwait(false);
+            }
+        }
+    }
 
     [Command("cat")]
     [Description("Get a cat picture from thecatapi.com")]
